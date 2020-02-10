@@ -21,7 +21,11 @@ app.get('/hello', (req, res) => {
   res.json({ greetings: 'Hello, API' });
 });
 
-app.post('/api/fileanalyse', (req, res) => {});
+const upload = multer({ storage: multer.memoryStorage() });
+
+app.post('/api/fileanalyse', upload.single('upfile'), (req, res) => {
+  res.json({ name: req.file.originalname, size: req.file.size });
+});
 
 app.listen(process.env.PORT || 3000, () => {
   console.log(`Node.js listening on Port ${process.env.PORT || 3000}`);
